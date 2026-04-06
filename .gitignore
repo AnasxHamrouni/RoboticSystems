@@ -19,5 +19,4 @@ __pycache__/
 
 # Logs
 *.log
-
-[S26] Robotic Systems. Lab 2.md
+outputs/
