@@ -1,0 +1,164 @@
+\documentclass[12pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,bm}
+
+\title{Double-Link Pendulum Dynamics (Tasks 2.1 and 2.2)}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Given data}
+\[
+m_1 = 1\,\text{kg},\quad m_2 = 1\,\text{kg},\quad
+l_1 = 0.8\,\text{m},\quad l_2 = 1.2\,\text{m},\quad
+g = 9.8\,\text{m/s}^2.
+\]
+
+We choose generalized coordinates
+\[
+\bm q = \begin{bmatrix}\alpha_1 \\ \alpha_2\end{bmatrix},
+\]
+where $\alpha_1$ and $\alpha_2$ are the link angles measured from the positive $x$ axis.
+Links are massless rods and point masses are concentrated at their ends. Motor inertias are neglected.
+
+\section*{2.1 Euler-Lagrange derivation}
+The point-mass positions are
+\[
+\bm r_1 =
+\begin{bmatrix}
+l_1\cos\alpha_1 \\
+l_1\sin\alpha_1
+\end{bmatrix},
+\qquad
+\bm r_2 =
+\begin{bmatrix}
+l_1\cos\alpha_1 + l_2\cos\alpha_2 \\
+l_1\sin\alpha_1 + l_2\sin\alpha_2
+\end{bmatrix}.
+\]
+
+Velocities:
+\[
+\dot{\bm r}_1 =
+\begin{bmatrix}
+-l_1\dot\alpha_1\sin\alpha_1 \\
+l_1\dot\alpha_1\cos\alpha_1
+\end{bmatrix},
+\quad
+\dot{\bm r}_2 =
+\begin{bmatrix}
+-l_1\dot\alpha_1\sin\alpha_1 - l_2\dot\alpha_2\sin\alpha_2 \\
+l_1\dot\alpha_1\cos\alpha_1 + l_2\dot\alpha_2\cos\alpha_2
+\end{bmatrix}.
+\]
+Hence,
+\[
+\|\dot{\bm r}_1\|^2 = l_1^2\dot\alpha_1^2,
+\]
+\[
+\|\dot{\bm r}_2\|^2 = l_1^2\dot\alpha_1^2 + l_2^2\dot\alpha_2^2
++ 2l_1l_2\dot\alpha_1\dot\alpha_2\cos(\alpha_1-\alpha_2).
+\]
+
+Kinetic energy:
+\[
+T = \frac12 m_1\|\dot{\bm r}_1\|^2 + \frac12 m_2\|\dot{\bm r}_2\|^2
+= \frac12 (m_1+m_2)l_1^2\dot\alpha_1^2
++ \frac12 m_2l_2^2\dot\alpha_2^2
++ m_2l_1l_2\dot\alpha_1\dot\alpha_2\cos(\alpha_1-\alpha_2).
+\]
+
+Potential energy (with $y$ positive upward):
+\[
+V = m_1gy_1 + m_2gy_2
+= (m_1+m_2)gl_1\sin\alpha_1 + m_2gl_2\sin\alpha_2.
+\]
+
+Lagrangian:
+\[
+\mathcal L = T - V.
+\]
+
+Using
+\[
+\frac{d}{dt}\left(\frac{\partial\mathcal L}{\partial \dot\alpha_i}\right)
+- \frac{\partial\mathcal L}{\partial \alpha_i} = 0,
+\qquad i=1,2,
+\]
+the equations of motion are
+\begin{align*}
+&(m_1+m_2)l_1^2\ddot\alpha_1
++ m_2l_1l_2\cos(\alpha_1-\alpha_2)\ddot\alpha_2
++ m_2l_1l_2\sin(\alpha_1-\alpha_2)\dot\alpha_2^2
++ (m_1+m_2)gl_1\cos\alpha_1 = 0,\\
+&m_2l_1l_2\cos(\alpha_1-\alpha_2)\ddot\alpha_1
++ m_2l_2^2\ddot\alpha_2
+- m_2l_1l_2\sin(\alpha_1-\alpha_2)\dot\alpha_1^2
++ m_2gl_2\cos\alpha_2 = 0.
+\end{align*}
+
+Substituting the given numerical values:
+\begin{align*}
+&1.28\,\ddot\alpha_1 + 0.96\cos(\alpha_1-\alpha_2)\,\ddot\alpha_2
++ 0.96\sin(\alpha_1-\alpha_2)\,\dot\alpha_2^2
++ 15.68\cos\alpha_1 = 0,\\
+&0.96\cos(\alpha_1-\alpha_2)\,\ddot\alpha_1 + 1.44\,\ddot\alpha_2
+- 0.96\sin(\alpha_1-\alpha_2)\,\dot\alpha_1^2
++ 11.76\cos\alpha_2 = 0.
+\end{align*}
+
+\section*{2.2 Matrix form $\bm M(\bm q)\ddot{\bm q}+\bm C(\bm q,\dot{\bm q})\dot{\bm q}+\bm g(\bm q)=\bm 0$}
+Let $\Delta = \alpha_1-\alpha_2$. Then
+\[
+\bm M(\bm q)=
+\begin{bmatrix}
+(m_1+m_2)l_1^2 & m_2l_1l_2\cos\Delta \\
+m_2l_1l_2\cos\Delta & m_2l_2^2
+\end{bmatrix},
+\]
+\[
+\bm C(\bm q,\dot{\bm q})=
+\begin{bmatrix}
+0 & m_2l_1l_2\sin\Delta\,\dot\alpha_2 \\
+-m_2l_1l_2\sin\Delta\,\dot\alpha_1 & 0
+\end{bmatrix},
+\]
+\[
+\bm g(\bm q)=
+\begin{bmatrix}
+(m_1+m_2)gl_1\cos\alpha_1 \\
+m_2gl_2\cos\alpha_2
+\end{bmatrix}.
+\]
+
+Numerically,
+\[
+\bm M(\bm q)=
+\begin{bmatrix}
+1.28 & 0.96\cos(\alpha_1-\alpha_2) \\
+0.96\cos(\alpha_1-\alpha_2) & 1.44
+\end{bmatrix},
+\]
+\[
+\bm C(\bm q,\dot{\bm q})=
+\begin{bmatrix}
+0 & 0.96\sin(\alpha_1-\alpha_2)\,\dot\alpha_2 \\
+-0.96\sin(\alpha_1-\alpha_2)\,\dot\alpha_1 & 0
+\end{bmatrix},
+\]
+\[
+\bm g(\bm q)=
+\begin{bmatrix}
+15.68\cos\alpha_1 \\
+11.76\cos\alpha_2
+\end{bmatrix}.
+\]
+
+Therefore,
+\[
+\bm M(\bm q)\ddot{\bm q}+\bm C(\bm q,\dot{\bm q})\dot{\bm q}+\bm g(\bm q)=\bm 0.
+\]
+
+\end{document}
